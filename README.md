@@ -45,3 +45,10 @@ CSV Format: `student_name, section_name, lecture, question, answer, submitted_at
   }
 ]
 ```
+
+### Output File Structure
+```
+- Facilitator Name
+    - Week X Result
+        - Student name w/ question/answer responses
+```
