@@ -1,8 +1,11 @@
 import json
+import os
+
+from docx import Document
 
 from parse_facilitator_student_mapping import read_mapping
 from parse_responses import parse_input, read_file
-
+from format_docs import *
 
 def generate_output(input_file_name, mapping_file_name, output_file_name):
     input_lines = read_file(input_file_name)
@@ -43,10 +46,29 @@ def generate_output(input_file_name, mapping_file_name, output_file_name):
     with open(output_file_name, 'w') as output_file:
         json.dump(all_data, output_file, indent=4)
 
+    return all_data
+
 
 if __name__ == "__main__":
     input_file_name = "./process/input/responses.csv"
     mapping_file_name = "./process/input/facilitator_student_mapping.json"
     output_file_name = "./process/output/output.json"
 
-    generate_output(input_file_name, mapping_file_name, output_file_name)
+    results = generate_output(input_file_name, mapping_file_name, output_file_name)
+
+    for facilitator in results:
+        for week in results[facilitator]:
+            path = "./process/output/" + facilitator
+            document = Document()
+
+            add_title(document, week)
+
+            for user in results[facilitator][week]:
+                add_user(document, user)
+
+                for response in results[facilitator][week][user]["responses"]:
+                    add_question(document, response["question"])
+                    add_answer(document, response["answer"])
+
+            os.makedirs(path, mode = 0o777, exist_ok = True)
+            document.save(path + "/" + week + ".docx")
