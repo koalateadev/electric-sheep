@@ -5,10 +5,19 @@ from selenium.webdriver import FirefoxProfile
 from selenium.webdriver.common.by import By
 from selenium.webdriver.firefox.options import Options
 
+from selenium import webdriver
+from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.chrome.options import Options
+
 options = Options()
-options.profile = FirefoxProfile("/Users/maxbuster/Library/Application Support/Firefox/Profiles/selenium-profile")
-driver = webdriver.Firefox(options=options)
-# driver = webdriver.Chrome()
+options.binary_location = "C:\\Program Files\\BraveSoftware\\Brave-Browser\\Application\\brave.exe"
+
+# Use webdriver-manager (recommended)
+from webdriver_manager.chrome import ChromeDriverManager
+service = Service(ChromeDriverManager().install())
+
+driver = webdriver.Chrome(service=service, options=options)
+
 driver.implicitly_wait(5)
 
 driver.get("https://electricsheep.teachable.com/admin-app/courses/2778348/reports/open-ended-questions")

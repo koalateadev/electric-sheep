@@ -25,6 +25,11 @@ CSV Format: `student_name, section_name, lecture, question, answer, submitted_at
 - Lack of stable sort by section name
 - Selenium browser session times out
 
+### Issues
+- Some Teachable student names don't match any Airtable student names
+- If students change cohorts we'll have to update the cohort mapping
+- Check Teachable students here https://electricsheep.teachable.com/admin/users/students?name_or_email_cont=___&enrolled_in_specific%5B%5D=2895238 match Airtable students https://airtable.com/appwYVZkOaw0mf7xN/pagW0PsYBgJjZ9bMd 
+
 ### Output Format
 ```json
 [
