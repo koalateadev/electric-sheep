@@ -3,7 +3,6 @@ import json
 import os
 import tempfile
 import zipfile
-import pandas as pd
 import streamlit as st
 
 from process.generate_docx_output import write_to_docx
