@@ -1,13 +1,12 @@
-import json
 import os
 
 from openpyxl import Workbook
 from openpyxl.styles import Font
 from openpyxl.utils import get_column_letter
 
-from process.map_inputs import generate_output
-from process.parse_cohorts import parse_cohorts
-from process.parse_responses import parse_responses
+from .map_inputs import generate_output
+from .parse_cohorts import parse_cohorts
+from .parse_responses import parse_responses
 
 
 def write_to_excel(results, base_path):

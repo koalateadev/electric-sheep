@@ -1,9 +1,8 @@
 import json
 import os
 
-from process.parse_airtable_to_teachable_name import parse_airtable_to_teachable_name
-from process.parse_cohorts import parse_cohorts
-from process.parse_responses import parse_responses
+from .parse_cohorts import parse_cohorts
+from .parse_responses import parse_responses
 
 
 def generate_output(parsed_input, parsed_mapping, parsed_student_ids):

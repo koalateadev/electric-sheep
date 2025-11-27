@@ -1,7 +1,7 @@
 import csv
 from datetime import datetime
 
-from model.open_ended_response import OpenEndedResponse
+from .model.open_ended_response import OpenEndedResponse
 
 
 def _read_file(input_file):

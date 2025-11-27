@@ -1,9 +1,12 @@
 import io
+import json
+import tempfile
 import zipfile
 import pandas as pd
 import streamlit as st
 
 from process.map_inputs import generate_output
+from process.parse_responses import parse_responses
 
 st.title("Futurekind Fellowship Response Mapper")
 
@@ -20,17 +23,20 @@ def run_mappings(df_a, df_b, df_c):
     }
 
 if file_a and file_b and file_c:
-    df_a = pd.read_csv(file_a)
-    df_b = pd.read_json(file_b)
-    df_c = pd.read_json(file_c)
+    with tempfile.NamedTemporaryFile(delete=False) as tmp:
+        tmp.write(file_a.read())
+        temp_path = tmp.name
+
+    df_a = parse_responses(temp_path)
+    df_b = json.load(file_b)
+    df_c = json.load(file_c)
 
     outputs = run_mappings(df_a, df_b, df_c)
 
     zip_buffer = io.BytesIO()
     with zipfile.ZipFile(zip_buffer, "w", zipfile.ZIP_DEFLATED) as zf:
         for filename, df in outputs.items():
-            csv_bytes = df.encode("utf-8")
-            zf.writestr(filename, csv_bytes)
+            zf.writestr(filename, json.dumps(df, indent=4))
 
     zip_buffer.seek(0)
 
