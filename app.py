@@ -25,7 +25,7 @@ if file_a and file_b and file_c:
     df_b = json.load(file_b)
     df_c = json.load(file_c)
 
-    outputs = generate_output(df_a, df_b, df_c)
+    outputs, missing = generate_output(df_a, df_b, df_c)
 
     write_to_docx(outputs, "./process/output/")
     write_to_excel(outputs, "./process/output/")
@@ -38,13 +38,11 @@ if file_a and file_b and file_c:
                 rel = os.path.relpath(full, "./process/output/")
                 z.write(full, rel)
 
-    # zip_buffer = io.BytesIO()
-    # with zipfile.ZipFile(zip_buffer, "w", zipfile.ZIP_DEFLATED) as zf:
-    #     for filename, df in outputs.items():
-    #         zf.writestr(filename, json.dumps(df, indent=4))
-
     zip_buffer.seek(0)
 
+    st.error(
+        f"The following students were found in teachable results but not cohort/airtable mapping: {missing}",
+    )
     st.download_button(
         label="Download results as ZIP",
         data=zip_buffer,
